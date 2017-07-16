@@ -10,9 +10,10 @@
 		</div>
 		<div class="all_card" v-on:touchstart='all_start()' v-on:touchmove='all_move()' v-on:touchend='all_end()'  
 			v-bind:style="{ 'transform': 'translate3d(0,' + all_swiping + 'px, 0)' }">
-			
+
 			<div class='card' v-on:touchstart='start(index,this.event)' v-on:touchmove='move(index,this.event)' v-on:touchend='end(index,this.event)'  
-			v-bind:style="{ 'transform': 'translate3d(' + item.swiping + 'px, 0, 0)' }" v-for="(item,index) in items">
+			v-bind:style="{ 'transform': 'translate3d(' + item.swiping + 'px, 0, 0)' }" v-for="(item,index) in items" >
+				<router-link to="/send.html">
 				<div class='list'>
 					<img src="../../static/img/avatar.png" class="user-p">
 					<div class='user-n'>
@@ -24,12 +25,13 @@
 						<div class='l-circle'>1</div>
 					</div>
 				</div>
+				</router-link>
 				<div class='slider'>
 					<div class='to-top'>置顶</div>
 					<div class='delete' v-on:click="del(index)">删除</div>
 				</div>
 			</div>
-
+			
 		</div>
 		<bottoms></bottoms>
 	</div>
@@ -63,6 +65,7 @@
 				in_swiping:-100,
 				all_swiping:0,
 				isPed:true,
+				isTed:true,
 				items:[
 					{num:1,swiping:0},
 					{num:2,swiping:0}
@@ -72,6 +75,10 @@
 		methods:{
 			start:function(index,event){	
 				this.slider.index = index;  this.slider.event = event;  this.slider.start(this);
+				this.isTed=true;
+				if(this.swiping==-20){
+					this.isTed=false;
+				} 
 			},
 			move:function(index,event){	
 				function li_move(distance,data,index){
@@ -86,8 +93,8 @@
 			                            }else{
 			                                //this.swiping = distance;
 			                            }
-			                        }else{ //左滑
-			                            if(data.items[index].swiping<=0){
+			                        }else{ //左滑   
+			                            if(data.items[index].swiping<=0&&data.isTed){ 
 			                                if(distance<-340){
 			                                    data.items[index].swiping = -340;
 			                                }else if(distance==-340){
@@ -98,7 +105,7 @@
 			                                    }
 			                     
 			                                }
-			                            }else{
+			                            }else if(data.isTed){
 			                                data.items[index].swiping+= distance;
 			                            }
 			                        }
