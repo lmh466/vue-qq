@@ -1,15 +1,15 @@
 <template>
 	<div class='bottom'>
 		<div class='foot_box'>
-			<img :src="img+'/message_c.png'" class="icon">
+			<img src="../../static/img/message_c.png" class="icon">
 			<div>消息</div>
 		</div>
 		<div class='foot_box'>
-			<img :src="img+'/mid.png'" class="icon">
+			<img src="../../static/img/mid.png" class="icon">
 			<div>联系人</div>
 		</div>
 		<div class='foot_box'>
-			<img :src="img+'/star.png'" class="icon">
+			<img src="../../static/img/star.png" class="icon">
 			<div>动态</div>
 		</div>
 	</div>

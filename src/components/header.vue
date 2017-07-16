@@ -5,7 +5,7 @@
 			<div class='message' v-on:click='tab_cl' v-bind:class='{choose : tab}'>消息</div>
 			<div class='phone' v-on:click='tab_cl' v-bind:class='{choose : !tab}'>电话</div>
 		</div>
-		<img :src="img+'/add2.png'" class="add">
+		<img src="../../static/img/add2.png" class="add">
 	</div>
 </template>
 

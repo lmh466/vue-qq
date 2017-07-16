@@ -4,7 +4,7 @@
 	<div class='index' v-on:touchstart="view_start()" v-on:touchmove="view_move()" v-on:touchend="view_end()" v-bind:style="{ 'transform': 'translate3d(' + in_swiping + 'vw, 0, 0)' }">
 		<headers></headers>
 		<div class='search'>
-			<img :src="img+'/glass.png'" class="glass">
+			<img src="../../static/img/glass.png" class="glass">
 			<span class='search-tit'>搜索</span>
 			<div class='slider_f5'>下拉刷新....</div>
 		</div>
@@ -14,7 +14,7 @@
 			<div class='card' v-on:touchstart='start(index,this.event)' v-on:touchmove='move(index,this.event)' v-on:touchend='end(index,this.event)'  
 			v-bind:style="{ 'transform': 'translate3d(' + item.swiping + 'px, 0, 0)' }" v-for="(item,index) in items">
 				<div class='list'>
-					<img :src="img+'/avatar.png'" class="user-p">
+					<img src="../../static/img/avatar.png" class="user-p">
 					<div class='user-n'>
 						<div class='user-name'>腾讯新闻</div>
 						<div class='user-content'>阿斯阿萨德撒的</div>
@@ -43,7 +43,6 @@
   	import left from './left.vue'
   	import slider from '../config-js/slider.js'
   	import img from '../config-js/config_js.js'
-
 
 	var startX, startY;
 	var endX, endY;
