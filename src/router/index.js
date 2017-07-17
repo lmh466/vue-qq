@@ -14,13 +14,13 @@ export default new Router({
       component: Hello
     },
     {
-    	path:'/index.html',
-    	name:'index',
-    	component:QQ
+      path:'/index.html',
+      name:'index',
+      component:QQ
     },
     {
       path:'/send.html',
-      name:'index',
+      name:'send',
       component:Send
     }
   ]

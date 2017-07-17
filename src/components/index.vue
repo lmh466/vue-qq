@@ -17,17 +17,17 @@
 				<div class='list'>
 					<img src="../../static/img/avatar.png" class="user-p">
 					<div class='user-n'>
-						<div class='user-name'>腾讯新闻</div>
-						<div class='user-content'>阿斯阿萨德撒的</div>
+						<div class='user-name'>{{item.name}}</div>
+						<div class='user-content'>{{item.content}}</div>
 					</div>
 					<div class='l-right'>
-						<div>下午 2:33</div>
-						<div class='l-circle'>1</div>
+						<div>{{item.time}}</div>
+						<div class='l-circle' v-if="item.num>0">{{item.num}}</div>
 					</div>
 				</div>
 				</router-link>
 				<div class='slider'>
-					<div class='to-top'>置顶</div>
+					<div class='to-top' v-on:click="top(index)">置顶</div>
 					<div class='delete' v-on:click="del(index)">删除</div>
 				</div>
 			</div>
@@ -44,11 +44,12 @@
   	import bottoms from './bottom.vue'
   	import left from './left.vue'
   	import slider from '../config-js/slider.js'
-  	import img from '../config-js/config_js.js'
+  	import item from '../config-js/config_js.js'
 
 	var startX, startY;
 	var endX, endY;
 	var distanceX, distanceY;
+
 	export default{
 		name:'index',
 		components:{
@@ -58,7 +59,6 @@
 		},
 		data(){
 			return {
-				img : img.address,
 				isActive:false,
 				slider:slider.slider,
 				swiping:-100,
@@ -66,10 +66,7 @@
 				all_swiping:0,
 				isPed:true,
 				isTed:true,
-				items:[
-					{num:1,swiping:0},
-					{num:2,swiping:0}
-				]
+				items:item.item
 			}
 		},
 		methods:{
@@ -193,7 +190,12 @@
 				this.slider.index = '';  this.slider.event = event;  
 				var distance = this.slider.moveY(this);
 				if(distance>0){
-					this.all_swiping = distance;
+					if(distance>400){
+						this.all_swiping = 400;
+					}else{
+						this.all_swiping = distance;
+					}
+					
 				}
 			},
 			all_end:function(){
@@ -203,6 +205,13 @@
 			},
 			del:function(index){
 				this.items.splice(index, 1);
+			},
+			top:function(index){
+				var arr = this.items;
+				var new_item = arr.splice(index, 1);
+				
+				arr.unshift(new_item[0]);
+				arr[0].swiping = 0;
 			}
 		}
 	}
@@ -264,6 +273,8 @@
 		position: relative;
 		z-index: 10;
 		background: #fff;
+		overflow-y: scroll;
+		height:80%;
 	}
 	.glass{
 		height:38px;

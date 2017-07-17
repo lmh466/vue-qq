@@ -40,6 +40,7 @@
 		border-top:solid 1px #ababab;
 		position: fixed;
 		bottom:0;
+		z-index:100;
 	}
 	.foot_box{
 		width:33.3%;
