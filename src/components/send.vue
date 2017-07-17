@@ -96,7 +96,11 @@
 				vm.msg.push(data);
 				
 		      }).catch(function(response) {
-		        console.log(response)
+		      	var data={
+					my:"",
+					yt:"由于图灵机器人没有获取公网信任证书https，所以在github上面的没有办法陪你聊天，download下来之后，npm install即可陪你聊天了"
+			};
+		        	vm.msg.push(data);
 		      });
 		    }	
 		},
