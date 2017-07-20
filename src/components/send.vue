@@ -1,7 +1,7 @@
 <template>
 	<div class='send' >
 		<div class="s_header">
-			<img src="../../static/img/back2.png" class="s_left" v-on:click="$router.back(-1)">
+			<img src="../../static/img/back2.png" class="s_left" v-on:click="goback">
 			<div class="s_mid">
 				图灵聊天机器人
 			</div>
@@ -72,6 +72,9 @@
 				this.getData();
 				this.content="";
 			},
+			goback :function() {
+		      this.$router.goBack()
+		    },
 			getData: function() {
 				var vm = this;
 		      this.$http.post('http://www.tuling123.com/openapi/api',

@@ -1,6 +1,6 @@
 <template>
 	<div class='main'>
-		<left v-bind:style="{ 'transform': 'translate3d(' + swiping + '%, 0, 0)' }"></left>
+		<left v-bind:style="{ 'transform': 'translate3d(' + swiping + '%, 0, 0)' }"  v-on:touchstart.native="left_start()" v-on:touchmove.native="left_move()" v-on:touchend.native="left_end()"></left>
 	<div class='index' v-on:touchstart="view_start()" v-on:touchmove="view_move()" v-on:touchend="view_end()" v-bind:style="{ 'transform': 'translate3d(' + in_swiping + 'vw, 0, 0)' }">
 		<headers></headers>
 		<div class='search'>
@@ -10,10 +10,11 @@
 		</div>
 		<div class="all_card" v-on:touchstart='all_start()' v-on:touchmove='all_move()' v-on:touchend='all_end()'  
 			v-bind:style="{ 'transform': 'translate3d(0,' + all_swiping + 'px, 0)' }">
-
-			<div class='card' v-on:touchstart='start(index,this.event)' v-on:touchmove='move(index,this.event)' v-on:touchend='end(index,this.event)'  
-			v-bind:style="{ 'transform': 'translate3d(' + item.swiping + 'px, 0, 0)' }" v-for="(item,index) in items" >
-				<router-link to="/send.html">
+		
+			<transition-group name="list" tag="div">
+			<div class='card list-item' v-on:touchstart='start(index,this.event)' v-on:touchmove='move(index,this.event)' v-on:touchend='end(index,this.event)'  
+			v-bind:style="{ 'transform': 'translate3d(' + item.swiping + 'px, 0, 0)' }" v-for="(item,index) in items"  v-bind:key="item.key">
+				<router-link to="/send">
 				<div class='list'>
 					<img src="../../static/img/avatar.png" class="user-p">
 					<div class='user-n'>
@@ -31,7 +32,8 @@
 					<div class='delete' v-on:click="del(index)">删除</div>
 				</div>
 			</div>
-			
+			</transition-group>
+
 		</div>
 		<bottoms></bottoms>
 	</div>
@@ -203,6 +205,38 @@
 					this.all_swiping=0;
 				}
 			},
+			left_start:function(){ 
+				this.slider.index = '';  this.slider.event = event;  this.slider.start(this);
+			},
+			left_move:function(){
+				this.slider.index = '';  this.slider.event = event;  this.slider.move(this);	
+			},
+			left_end:function(){
+				this.slider.index = '';  this.slider.event = event;  
+				var distance = this.slider.end(this);
+				if(distance<0){
+					var that = this;
+					var isPed = true;
+				   		function m(){
+				   			that.swiping-=5;
+				   			that.in_swiping-=5;
+				   			if(that.swiping<=-100){
+
+				   			}else{
+							setTimeout(m,10)
+				   			}
+				   			
+				   		}
+				   		for(var i in this.items){
+				   			if(this.items[i].swiping!=0){
+				   				isPed = false;
+				   			}
+				   		}
+				   		if(that.swiping==-20&&this.isPed){
+				   			m();
+				   		}
+				}
+			},
 			del:function(index){
 				this.items.splice(index, 1);
 			},
@@ -211,7 +245,10 @@
 				var new_item = arr.splice(index, 1);
 				
 				arr.unshift(new_item[0]);
-				arr[0].swiping = 0;
+				for(var i in arr){
+					arr[i].swiping = 0
+				}
+				
 			}
 		}
 	}
@@ -356,4 +393,12 @@
 		background: #ff3b32;
 		width:170px;
 	}
+.list-item {
+  transition: all 1s;
+}
+.list-enter, .list-leave-to{
+   opacity: 0;
+  transform: translateX(30px);
+}
+
 </style>

@@ -5,23 +5,29 @@ import QQ from '@/components/index'
 import Send from '@/components/send'
 
 Vue.use(Router)
+Router.prototype.goBack = function () {
+  this.isBack = true
+  window.history.go(-1)
+}
 
 export default new Router({
   routes: [
     {
       path: '/',
       name: 'Hello',
-      component: Hello
-    },
-    {
-      path:'/index.html',
-      name:'index',
-      component:QQ
-    },
-    {
-      path:'/send.html',
-      name:'send',
-      component:Send
+      component: Hello,
+      children:[
+        {
+          path:'index',
+          name:'index',
+          component:QQ
+        },
+        {
+          path:'send',
+          name:'send',
+          component:Send
+        }
+      ]
     }
   ]
 })

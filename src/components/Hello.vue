@@ -1,39 +1,58 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-
+  <transition :name="transitionName">
+    <router-view class="child-view"></router-view>
+  </transition>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'hello',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+  export default {
+    data () {
+      return {
+        transitionName: 'slide-left'
+      }
+    },
+    beforeRouteUpdate (to, from, next) {
+      let isBack = this.$router.isBack
+      if (isBack) {
+        this.transitionName = 'slide-right'
+      } else {
+        this.transitionName = 'slide-left'
+      }
+      this.$router.isBack = false
+      next()
     }
   }
-}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+  
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-}
+  .hello{
+      width:100%;
+    height:100%;
+  }
+  .child-view {
+  position: absolute;
+  width:100%;
+  height:100%;
+  transition: all .8s cubic-bezier(.55,0,.1,1);
+  }
+  .slide-left-enter, .slide-right-leave-active {
+    opacity: 0;
+    -webkit-transform: translate(450px, 0);
+    transform: translate(450px, 0);
+  }
+  .slide-left-leave-active, .slide-right-enter {
+    opacity: 0;
+    -webkit-transform: translate(-450px, 0);
+    transform: translate(-450px, 0);
+  }
+  .header {
+    position:absolute;
+    height:44px;
+    background:#0058f1;
+    width:100%
+  }
 </style>
+
+
